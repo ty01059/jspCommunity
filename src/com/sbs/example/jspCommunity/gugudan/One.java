@@ -11,49 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 public class One extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		response.setContentType("text/html; charset=UTF-8");
 		String pathInfo = request.getPathInfo();
 		String[] pathParts = pathInfo.split("/");
 		int num = Integer.parseInt(pathParts[1]);
+		String lang = request.getParameter("lang") != null ? request.getParameter("lang") : "9";
+		int num2 = Integer.parseInt(lang);
 		
-		if(num == 1) {
-			for(int i = 1; i < 10; i++) {
-				response.getWriter().append("1 * " + i + " = " + 1*i + "<br>");				
-			}
-		} else if(num == 2) {
-			for(int i = 1; i < 10; i++) {
-				response.getWriter().append("2 * " + i + " = " + 2*i + "<br>");				
-			}
-		} else if(num == 3) {
-			for(int i = 1; i < 10; i++) {
-				response.getWriter().append("3 * " + i + " = " + 3*i + "<br>");				
-			}
-		} else if(num == 4) {
-			for(int i = 1; i < 10; i++) {
-				response.getWriter().append("4 * " + i + " = " + 4*i + "<br>");				
-			}
-		} else if(num == 5) {
-			for(int i = 1; i < 10; i++) {
-				response.getWriter().append("5 * " + i + " = " + 5*i + "<br>");				
-			}
-		} else if(num == 6) {
-			for(int i = 1; i < 10; i++) {
-				response.getWriter().append("6 * " + i + " = " + 6*i + "<br>");				
-			}
-		} else if(num == 7) {
-			for(int i = 1; i < 10; i++) {
-				response.getWriter().append("7 * " + i + " = " + 7*i + "<br>");				
-			}
-		} else if(num == 8) {
-			for(int i = 1; i < 10; i++) {
-				response.getWriter().append("8 * " + i + " = " + 8*i + "<br>");				
-			}
-		} else if(num == 9) {
-			for(int i = 1; i < 10; i++) {
-				response.getWriter().append("9 * " + i + " = " + 9*i + "<br>");				
+		if(num != 0) {
+			for(int i = 1; i <= num2; i++) {
+				response.getWriter().append(num + " * " + i + " = " + num*i + "<br>");				
 			}
 		} else {
-			response.getWriter().append("없는 구구단입니다.<br>");
+			response.getWriter().append("구구단 없음.<br>");
 		}
 	}
 }
