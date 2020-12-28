@@ -1,4 +1,4 @@
-package com.sbs.example.jspCommunity.gugudan;
+package com.sbs.example.jspCommunity.servlet.gugudan;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -14,16 +14,17 @@ public class One extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		String pathInfo = request.getPathInfo();
 		String[] pathParts = pathInfo.split("/");
-		int num = Integer.parseInt(pathParts[1]);
 		String lang = request.getParameter("lang") != null ? request.getParameter("lang") : "9";
-		int num2 = Integer.parseInt(lang);
+		int num = Integer.parseInt(lang);
 		
-		if(num != 0) {
-			for(int i = 1; i <= num2; i++) {
-				response.getWriter().append(num + " * " + i + " = " + num*i + "<br>");				
+		int dan = 1;
+		if(!pathParts[1].equals("*")) {
+			dan = Integer.parseInt(pathParts[1]);
+			for(int i = 1; i <= num; i++) {
+				response.getWriter().append(dan + " * " + i + " = " + dan*i + "<br>");				
 			}
 		} else {
-			response.getWriter().append("구구단 없음.<br>");
+			response.getWriter().append("숫자를 입력해주세요.<br>");
 		}
 	}
 }
