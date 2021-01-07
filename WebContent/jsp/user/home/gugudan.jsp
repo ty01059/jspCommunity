@@ -1,14 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-int dan = 1;
-if (request.getParameter("dan") != null) {
-	dan = Integer.parseInt(request.getParameter("dan"));
-}
-int limit = 9;
-if (request.getParameter("limit") != null) {
-	limit = Integer.parseInt(request.getParameter("limit"));
-}
+int dan = (int)request.getAttribute("dan");
+int limit = (int)request.getAttribute("limit");
 %>
 <!doctype html>
 <html lang="ko">
