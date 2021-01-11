@@ -1,35 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.Map"%>
+<%@ page import="com.sbs.example.jspCommunity.dto.Article"%>
 <%
-	Map<String, Object> articleMapDetail = (Map<String, Object>) request.getAttribute("articleMapDetail");
+Article article = (Article) request.getAttribute("article");
 %>
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>게시물 상세정보</title>
+<meta charset="UTF-8" />
+<title>게시물 상세페이지</title>
 </head>
 <body>
-	<h1>게시물 상세</h1>
+	<h1>게시물 상세페이지</h1>
+	
 	<div>
 		번호 :
-		<%=articleMapDetail.get("id")%>
+		<%=article.id%>
 		<br />
-		작성시간 :
-		<%=articleMapDetail.get("regDate")%>
+		작성날짜 :
+		<%=article.regDate%>
+		<br />
+		갱신날짜 :
+		<%=article.updateDate%>
+		<br />
+		작성자 :
+		<%=article.extra__writer%>
 		<br />
 		제목 :
-		<%=articleMapDetail.get("title")%>
-		<br />
-		내용 :
-		<%=articleMapDetail.get("body")%>
-		<br />
-		사용자 아이디 :
-		<%=articleMapDetail.get("articleId")%>
-		<br />
-		게시판 번호 :
-		<%=articleMapDetail.get("boardId")%>
+		<%=article.title%>
 		<hr />
 	</div>
 </body>
