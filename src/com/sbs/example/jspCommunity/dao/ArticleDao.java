@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sbs.example.jspCommunity.dto.Article;
+import com.sbs.example.jspCommunity.dto.Board;
 import com.sbs.example.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlutil.SecSql;
 
@@ -56,5 +57,46 @@ public class ArticleDao {
 		}
 
 		return new Article(map);
+	}
+	
+	public Board getBoardById(int id) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT B.*");
+		sql.append("FROM board AS B");
+		sql.append("WHERE B.id = ?", id);
+
+		Map<String, Object> map = MysqlUtil.selectRow(sql);
+
+		if ( map.isEmpty() ) {
+			return null;
+		}
+
+		return new Board(map);
+	}
+
+	public int write(Map<String, Object> writeArgs) {
+		SecSql sql = new SecSql();
+		sql.append("INSERT INTO article");
+		sql.append("SET regDate = NOW()");
+		sql.append(", updateDate = NOW()");
+		sql.append(", boardId = ?", writeArgs.get("boardId"));
+		sql.append(", memberId = ?", writeArgs.get("memberId"));
+		sql.append(", title = ?", writeArgs.get("title"));
+		sql.append(", body = ?", writeArgs.get("body"));
+
+		return MysqlUtil.insert(sql);
+	}
+	
+	public int modify(Map<String, Object> modifyArgs) {
+		SecSql sql = new SecSql();
+		sql.append("UPDATE article");
+		sql.append("SET updateDate = NOW()");
+		sql.append(", boardId = ?", modifyArgs.get("boardId"));
+		sql.append(", memberId = ?", modifyArgs.get("memberId"));
+		sql.append(", title = ?", modifyArgs.get("title"));
+		sql.append(", body = ?", modifyArgs.get("body"));
+		sql.append("WHERE id = ?", modifyArgs.get("articleId"));
+
+		return MysqlUtil.insert(sql);
 	}
 }

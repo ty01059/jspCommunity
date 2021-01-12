@@ -1,21 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="com.sbs.example.jspCommunity.dto.Board"%>
-<%@ page import="com.sbs.example.jspCommunity.dto.Article"%>
 <%
 Board board = (Board) request.getAttribute("board");
-int articleId = (Integer) request.getAttribute("articleId");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title><%=board.name%> 게시물 수정</title>
+<title><%=board.name%> 게시물 작성</title>
 </head>
 <body>
-	<h1><%=board.name%> 게시물 수정</h1>
+	<h1><%=board.name%> 게시물 작성</h1>
 
 	<div>
 		<form action="doWrite" method="POST">
@@ -40,7 +38,7 @@ int articleId = (Integer) request.getAttribute("articleId");
 			<div>
 				<div>작성</div>
 				<div>
-					<input type="submit" value="수정" />
+					<input type="submit" value="작성" />
 					<button type="button" onclick="history.back();">뒤로가기</button>
 				</div>
 			</div>
