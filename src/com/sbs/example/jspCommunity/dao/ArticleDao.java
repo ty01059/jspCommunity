@@ -91,12 +91,10 @@ public class ArticleDao {
 		SecSql sql = new SecSql();
 		sql.append("UPDATE article");
 		sql.append("SET updateDate = NOW()");
-		sql.append(", boardId = ?", modifyArgs.get("boardId"));
-		sql.append(", memberId = ?", modifyArgs.get("memberId"));
 		sql.append(", title = ?", modifyArgs.get("title"));
 		sql.append(", body = ?", modifyArgs.get("body"));
-		sql.append("WHERE id = ?", modifyArgs.get("articleId"));
+		sql.append("WHERE id = ? AND memberId = ?", modifyArgs.get("id"), modifyArgs.get("memberId"));
 
-		return MysqlUtil.insert(sql);
+		return MysqlUtil.update(sql);
 	}
 }

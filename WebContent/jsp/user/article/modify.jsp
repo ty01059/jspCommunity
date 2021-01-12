@@ -5,22 +5,21 @@
 <%@ page import="com.sbs.example.jspCommunity.dto.Board"%>
 <%@ page import="com.sbs.example.jspCommunity.dto.Article"%>
 <%
-Board board = (Board) request.getAttribute("board");
-int articleId = (Integer) request.getAttribute("articleId");
+int memberId = (Integer) request.getAttribute("memberId");
+int id = (Integer) request.getAttribute("id");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title><%=board.name%> 게시물 수정</title>
+<title>게시물 수정</title>
 </head>
 <body>
-	<h1><%=board.name%> 게시물 수정</h1>
+	<h1>게시물 수정</h1>
 
 	<div>
 		<form action="doWrite" method="POST">
-			<input type="hidden" name="boardId" value="<%=board.id%>" />
-			<input type="hidden" name="memberId" value="1" />
+			<input type="hidden" name="memberId" value="<%=memberId%>" />
 
 			<hr />
 			<div>

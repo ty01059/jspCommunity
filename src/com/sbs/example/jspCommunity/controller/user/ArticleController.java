@@ -75,31 +75,36 @@ public class ArticleController {
 	}
 	
 	public String showModify(HttpServletRequest req, HttpServletResponse resp) {
-		int boardId = Integer.parseInt(req.getParameter("boardId"));
-		Board board = articleService.getBoardById(boardId);
-		int articleId = Integer.parseInt(req.getParameter("articleId"));
+		int memberId = Integer.parseInt(req.getParameter("memberId"));
+		int id = Integer.parseInt(req.getParameter("id"));
 		
-		req.setAttribute("board", board);
-		req.setAttribute("articleId", articleId);
+		req.setAttribute("memberId", memberId);
+		req.setAttribute("id", id);
 		return "user/article/modify";
 	}
 	
 	public String doModify(HttpServletRequest req, HttpServletResponse resp) {
-		int memberId = Integer.parseInt(req.getParameter("memberId"));
-		int boardId = Integer.parseInt(req.getParameter("boardId"));
+		int memberId = Integer.parseInt(req.getParameter("mexammberId"));
+		int id = Integer.parseInt(req.getParameter("id"));
 		String title = req.getParameter("title");
 		String body = req.getParameter("body");
 
 		Map<String, Object> modifyArgs = new HashMap<>();
 		modifyArgs.put("memberId", memberId);
-		modifyArgs.put("boardId", boardId);
 		modifyArgs.put("title", title);
 		modifyArgs.put("body", body);
+		modifyArgs.put("id", id);
 
-		int newArticleId = articleService.modify(modifyArgs);
+		req.setAttribute("alertMsg", id + "번 게시물이 수정되었습니다.");
+		return "common/redirect";
+	}
 
-		req.setAttribute("alertMsg", newArticleId + "번 게시물이 수정되었습니다.");
-		req.setAttribute("replaceUrl", String.format("detail?id=%d", newArticleId));
+	public String showDelete(HttpServletRequest req, HttpServletResponse resp) {
+		return "user/article/delete";
+	}
+
+	public String doDelete(HttpServletRequest req, HttpServletResponse resp) {
+		req.setAttribute("alertMsg", 1 + "번 게시물이 삭제되었습니다.");
 		return "common/redirect";
 	}
 }
