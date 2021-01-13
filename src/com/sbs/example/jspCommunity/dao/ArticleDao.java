@@ -97,4 +97,12 @@ public class ArticleDao {
 
 		return MysqlUtil.update(sql);
 	}
+	
+	public int delete(Map<String, Object> deleteArgs) {
+		SecSql sql = new SecSql();
+		sql.append("DELETE FROM article");
+		sql.append("WHERE id = ? AND memberId = ?", deleteArgs.get("id"), deleteArgs.get("memberId"));
+
+		return MysqlUtil.delete(sql);
+	}
 }

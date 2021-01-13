@@ -84,7 +84,7 @@ public class ArticleController {
 	}
 	
 	public String doModify(HttpServletRequest req, HttpServletResponse resp) {
-		int memberId = Integer.parseInt(req.getParameter("mexammberId"));
+		int memberId = Integer.parseInt(req.getParameter("memberId"));
 		int id = Integer.parseInt(req.getParameter("id"));
 		String title = req.getParameter("title");
 		String body = req.getParameter("body");
@@ -95,16 +95,32 @@ public class ArticleController {
 		modifyArgs.put("body", body);
 		modifyArgs.put("id", id);
 
+		articleService.modify(modifyArgs);
+		
 		req.setAttribute("alertMsg", id + "번 게시물이 수정되었습니다.");
 		return "common/redirect";
 	}
 
 	public String showDelete(HttpServletRequest req, HttpServletResponse resp) {
+		int memberId = Integer.parseInt(req.getParameter("memberId"));
+		int id = Integer.parseInt(req.getParameter("id"));
+		
+		req.setAttribute("memberId", memberId);
+		req.setAttribute("id", id);
 		return "user/article/delete";
 	}
 
 	public String doDelete(HttpServletRequest req, HttpServletResponse resp) {
-		req.setAttribute("alertMsg", 1 + "번 게시물이 삭제되었습니다.");
+		int memberId = Integer.parseInt(req.getParameter("memberId"));
+		int id = Integer.parseInt(req.getParameter("id"));
+
+		Map<String, Object> deleteArgs = new HashMap<>();
+		deleteArgs.put("memberId", memberId);
+		deleteArgs.put("id", id);
+		
+		articleService.delete(deleteArgs);
+		
+		req.setAttribute("alertMsg", id + "번 게시물이 삭제되었습니다.");
 		return "common/redirect";
 	}
 }

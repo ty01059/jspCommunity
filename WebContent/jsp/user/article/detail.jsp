@@ -34,7 +34,8 @@ Article article = (Article) request.getAttribute("article");
 	<hr />
 
 	<div>
-		<a href="modify?memberId=<%=request.getParameter("memberId")%>&id=<%=request.getParameter("id")%>">게시물 수정</a>
+		<a href="modify?memberId=<%=article.memberId%>&id=<%=article.id%>">게시물 수정</a>
+		<a href="delete?memberId=<%=article.memberId%>&id=<%=article.id%>">게시물 삭제</a>
 		<a href="list?boardId=<%=article.boardId%>">리스트로 이동</a>
 	</div>
 </body>

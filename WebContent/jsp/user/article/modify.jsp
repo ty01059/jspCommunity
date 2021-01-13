@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.Map"%>
-<%@ page import="java.util.List"%>
-<%@ page import="com.sbs.example.jspCommunity.dto.Board"%>
-<%@ page import="com.sbs.example.jspCommunity.dto.Article"%>
 <%
 int memberId = (Integer) request.getAttribute("memberId");
 int id = (Integer) request.getAttribute("id");
@@ -18,8 +14,9 @@ int id = (Integer) request.getAttribute("id");
 	<h1>게시물 수정</h1>
 
 	<div>
-		<form action="doWrite" method="POST">
+		<form action="doModify" method="POST">
 			<input type="hidden" name="memberId" value="<%=memberId%>" />
+			<input type="hidden" name="id" value="<%=id%>" />
 
 			<hr />
 			<div>
@@ -37,7 +34,7 @@ int id = (Integer) request.getAttribute("id");
 			</div>
 			<hr />
 			<div>
-				<div>작성</div>
+				<div>수정</div>
 				<div>
 					<input type="submit" value="수정" />
 					<button type="button" onclick="history.back();">뒤로가기</button>

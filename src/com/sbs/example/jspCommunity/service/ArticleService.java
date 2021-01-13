@@ -31,7 +31,11 @@ public class ArticleService {
 		return articleDao.write(writeArgs);
 	}
 	
-	public int modify(Map<String, Object> writeArgs) {
-		return articleDao.modify(writeArgs);
+	public int modify(Map<String, Object> modifyArgs) {
+		return articleDao.modify(modifyArgs);
+	}
+	
+	public int delete(Map<String, Object> deleteArgs) {
+		return articleDao.delete(deleteArgs);
 	}
 }
