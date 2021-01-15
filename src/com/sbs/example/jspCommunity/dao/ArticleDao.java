@@ -27,7 +27,7 @@ public class ArticleDao {
 			sql.append("WHERE A.boardId = ?", boardId);
 		}
 		sql.append("ORDER BY A.id DESC");
-		
+
 		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
 
 		for (Map<String, Object> articleMap : articleMapList) {
@@ -49,16 +49,16 @@ public class ArticleDao {
 		sql.append("INNER JOIN `board` AS B");
 		sql.append("ON A.boardId = B.id");
 		sql.append("WHERE A.id = ?", id);
-		
+
 		Map<String, Object> map = MysqlUtil.selectRow(sql);
-		
-		if ( map.isEmpty() ) {
+
+		if (map.isEmpty()) {
 			return null;
 		}
 
 		return new Article(map);
 	}
-	
+
 	public Board getBoardById(int id) {
 		SecSql sql = new SecSql();
 		sql.append("SELECT B.*");
@@ -67,41 +67,56 @@ public class ArticleDao {
 
 		Map<String, Object> map = MysqlUtil.selectRow(sql);
 
-		if ( map.isEmpty() ) {
+		if (map.isEmpty()) {
 			return null;
 		}
 
 		return new Board(map);
 	}
 
-	public int write(Map<String, Object> writeArgs) {
+	public int write(Article article) {
 		SecSql sql = new SecSql();
 		sql.append("INSERT INTO article");
 		sql.append("SET regDate = NOW()");
 		sql.append(", updateDate = NOW()");
-		sql.append(", boardId = ?", writeArgs.get("boardId"));
-		sql.append(", memberId = ?", writeArgs.get("memberId"));
-		sql.append(", title = ?", writeArgs.get("title"));
-		sql.append(", body = ?", writeArgs.get("body"));
+		sql.append(", boardId = ?", article.boardId);
+		sql.append(", memberId = ?", article.memberId);
+		sql.append(", title = ?", article.title);
+		sql.append(", body = ?", article.body);
 
 		return MysqlUtil.insert(sql);
 	}
-	
-	public int modify(Map<String, Object> modifyArgs) {
+
+	public int modify(Article article) {
 		SecSql sql = new SecSql();
 		sql.append("UPDATE article");
 		sql.append("SET updateDate = NOW()");
-		sql.append(", title = ?", modifyArgs.get("title"));
-		sql.append(", body = ?", modifyArgs.get("body"));
-		sql.append("WHERE id = ? AND memberId = ?", modifyArgs.get("id"), modifyArgs.get("memberId"));
+
+		boolean needToUpdate = false;
+
+		if (article.title != null) {
+			needToUpdate = true;
+			sql.append(", title = ?", article.title);
+		}
+
+		if (article.body != null) {
+			needToUpdate = true;
+			sql.append(", `body` = ?", article.body);
+		}
+
+		if (needToUpdate == false) {
+			return 0;
+		}
+
+		sql.append("WHERE id = ?", article.id);
 
 		return MysqlUtil.update(sql);
 	}
-	
-	public int delete(Map<String, Object> deleteArgs) {
+
+	public int delete(int id) {
 		SecSql sql = new SecSql();
 		sql.append("DELETE FROM article");
-		sql.append("WHERE id = ? AND memberId = ?", deleteArgs.get("id"), deleteArgs.get("memberId"));
+		sql.append("WHERE id = ?", id);
 
 		return MysqlUtil.delete(sql);
 	}

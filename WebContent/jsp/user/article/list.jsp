@@ -7,52 +7,32 @@
 <%
 List<Article> articles = (List<Article>) request.getAttribute("articles");
 Board board = (Board) request.getAttribute("board");
+String pageTitle = board.name + " 게시물 리스트";
 %>
-<!doctype html>
-<html lang="ko">
-<head>
+<%@ include file="../../part/head.jspf"%>
+<h1><%=pageTitle%></h1>
 
-<style type="text/css">
-.write > a {
-  background-color: #d2d2d2;
-  border-radius: 3px;
-  text-decoration: none;
-  color: white;
-}
-</style>
+<div class="write">
+	<a href="write?boardId=<%=request.getParameter("boardId")%>">게시물 작성</a>
+</div>
 
-<meta charset="UTF-8" />
-<title> <%=board.name%> 게시물 리스트</title>
-</head>
-<body>
-	<h1> <%=board.name%> 게시물 리스트</h1>
-	
-	<div class="write">
-		<a href="write?boardId=<%=request.getParameter("boardId")%>">게시물 작성</a>
-	</div>
-	
-	<%
+<%
 	for (Article article : articles) {
-	%>
-	<div>
-		번호 :
-		<%=article.id%>
-		<br />
-		작성날짜 :
-		<%=article.regDate%>
-		<br />
-		갱신날짜 :
-		<%=article.updateDate%>
-		<br />
-		작성자 :
-		<%=article.extra__writer%>
-		<br />
-		제목 :
-		<a href="detail?id=<%=article.id%>"><%=article.title%></a>
-		<hr />
-	</div>
-	<%
+%>
+<div>
+	번호 :
+	<%=article.id%>
+	<br /> 작성날짜 :
+	<%=article.regDate%>
+	<br /> 갱신날짜 :
+	<%=article.updateDate%>
+	<br /> 작성자 :
+	<%=article.extra__writer%>
+	<br /> 제목 : <a href="detail?id=<%=article.id%>"><%=article.title%></a>
+	<hr />
+</div>
+<%
 	}
-	%>
-</body>
-</html>
+%>
+
+<%@ include file="../../part/foot.jspf"%>

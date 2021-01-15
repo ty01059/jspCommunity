@@ -15,6 +15,9 @@ public class Article {
 	public String extra__writer;
 	public String extra__boardName;
 	public String extra__boardCode;
+	
+	public Article() {
+	}
 
 	public Article(Map<String, Object> map) {
 		this.id = (int) map.get("id");
