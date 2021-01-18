@@ -3,9 +3,7 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="com.sbs.example.jspCommunity.dto.Member"%>
-<%
-List<Member> members = (List<Member>) request.getAttribute("members");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -14,22 +12,19 @@ List<Member> members = (List<Member>) request.getAttribute("members");
 </head>
 <body>
 	<h1>회원 리스트</h1>
-	<%
-	for (Member member : members) {
-	%>
+
+<c:forEach var="member" items="${members}">
 	<div>
 		번호 :
-		<%=member.id%>
+		${member.id}
 		<br />
 		이름 :
-		<%=member.name%>
+		${member.name}
 		<br />
 		닉네임 :
-		<%=member.nickname%>
+		${member.nickname}
 		<hr />
 	</div>
-	<%
-	}
-	%>
+</c:forEach>
 </body>
 </html>

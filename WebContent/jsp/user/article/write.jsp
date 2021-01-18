@@ -3,17 +3,18 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="com.sbs.example.jspCommunity.dto.Board"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-Board board = (Board) request.getAttribute("board");
-String pageTitle = board.name + " 게시물 작성페이지";
+String pageTitle = "";
 %>
 <%@ include file="../../part/head.jspf"%>
-<h1><%=pageTitle%></h1>
+
+<h1><c:out value="${board.name} 게시물 작성페이지"/></h1>
 
 <div>
 	<form action="doWrite" method="POST">
-		<input type="hidden" name="boardId" value="<%=board.id%>" /> <input
-			type="hidden" name="memberId" value="1" />
+		<input type="hidden" name="boardId" value="${board.id}" />
+		<input type="hidden" name="memberId" value="1" />
 
 		<hr />
 		<div>

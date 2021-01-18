@@ -2,18 +2,17 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.sbs.example.jspCommunity.dto.Board"%>
 <%@ page import="com.sbs.example.jspCommunity.dto.Article"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-	int memberId = (Integer) request.getAttribute("memberId");
-Article article = (Article) request.getAttribute("article");
-String pageTitle = "게시물 수정페이지";
+String pageTitle = "";
 %>
 <%@ include file="../../part/head.jspf"%>
-<h1><%=pageTitle%></h1>
+<h1><c:out value="게시물 수정페이지"/></h1>
 
 <div>
 	<form action="doModify" method="POST">
-		<input type="hidden" name="memberId" value="<%=memberId%>" /> <input
-			type="hidden" name="id" value="<%=article.id%>" />
+		<input type="hidden" name="memberId" value="${memberId}" />
+		<input type="hidden" name="id" value="${article.id}" />
 
 		<hr />
 		<div>

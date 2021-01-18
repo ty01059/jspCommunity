@@ -79,10 +79,10 @@ public class ArticleDao {
 		sql.append("INSERT INTO article");
 		sql.append("SET regDate = NOW()");
 		sql.append(", updateDate = NOW()");
-		sql.append(", boardId = ?", article.boardId);
-		sql.append(", memberId = ?", article.memberId);
-		sql.append(", title = ?", article.title);
-		sql.append(", body = ?", article.body);
+		sql.append(", boardId = ?", article.getBoardId());
+		sql.append(", memberId = ?", article.getMemberId());
+		sql.append(", title = ?", article.getTitle());
+		sql.append(", body = ?", article.getBody());
 
 		return MysqlUtil.insert(sql);
 	}
@@ -94,21 +94,21 @@ public class ArticleDao {
 
 		boolean needToUpdate = false;
 
-		if (article.title != null) {
+		if (article.getTitle() != null) {
 			needToUpdate = true;
-			sql.append(", title = ?", article.title);
+			sql.append(", title = ?", article.getTitle());
 		}
 
-		if (article.body != null) {
+		if (article.getBody() != null) {
 			needToUpdate = true;
-			sql.append(", `body` = ?", article.body);
+			sql.append(", `body` = ?", article.getBody());
 		}
 
 		if (needToUpdate == false) {
 			return 0;
 		}
 
-		sql.append("WHERE id = ?", article.id);
+		sql.append("WHERE id = ?", article.getId());
 
 		return MysqlUtil.update(sql);
 	}

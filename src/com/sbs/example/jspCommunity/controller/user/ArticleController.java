@@ -55,10 +55,10 @@ public class ArticleController {
 
 	public String doWrite(HttpServletRequest req, HttpServletResponse resp) {
 		Article article = new Article();
-		article.memberId = Integer.parseInt(req.getParameter("memberId"));
-		article.boardId = Integer.parseInt(req.getParameter("boardId"));
-		article.title = req.getParameter("title");
-		article.body = req.getParameter("body");
+		article.setMemberId(Integer.parseInt(req.getParameter("memberId")));
+		article.setBoardId(Integer.parseInt(req.getParameter("boardId")));
+		article.setTitle(req.getParameter("title"));
+		article.setBody(req.getParameter("body"));
 
 		int newArticleId = articleService.write(article);
 
@@ -96,18 +96,18 @@ public class ArticleController {
 			return "common/redirect";
 		}
 
-		if ( article.memberId != memberId ) {
+		if ( article.getMemberId() != memberId ) {
 			req.setAttribute("alertMsg", id + "번 게시물에 대한 권한이 없습니다.");
 			req.setAttribute("historyBack", true);
 			return "common/redirect";
 		}
 		
-		article.title = req.getParameter("title");
-		article.body = req.getParameter("body");
+		article.setTitle(req.getParameter("title"));
+		article.setBody(req.getParameter("body"));
 
 		articleService.modify(article);
 
-		int boardId = article.boardId;
+		int boardId = article.getBoardId();
 
 		req.setAttribute("alertMsg", id + "번 게시물이 수정되었습니다.");
 		req.setAttribute("replaceUrl", String.format("list?boardId=%d", boardId));
@@ -126,7 +126,7 @@ public class ArticleController {
 			return "common/redirect";
 		}
 
-		if ( article.memberId != memberId ) {
+		if ( article.getMemberId() != memberId ) {
 			req.setAttribute("alertMsg", id + "번 게시물에 대한 권한이 없습니다.");
 			req.setAttribute("historyBack", true);
 			return "common/redirect";
@@ -134,7 +134,7 @@ public class ArticleController {
 		
 		articleService.delete(id);
 
-		int boardId = article.boardId;
+		int boardId = article.getBoardId();
 
 		req.setAttribute("alertMsg", id + "번 게시물이 삭제되었습니다.");
 		req.setAttribute("replaceUrl", String.format("list?boardId=%d", boardId));
