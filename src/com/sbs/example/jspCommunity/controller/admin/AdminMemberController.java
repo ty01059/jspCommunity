@@ -1,4 +1,4 @@
-package com.sbs.example.jspCommunity.controller.user;
+package com.sbs.example.jspCommunity.controller.admin;
 
 import java.util.List;
 
@@ -9,10 +9,10 @@ import com.sbs.example.jspCommunity.container.Container;
 import com.sbs.example.jspCommunity.dto.Member;
 import com.sbs.example.jspCommunity.service.MemberService;
 
-public class MemberController {
+public class AdminMemberController {
 	private MemberService memberService;
 	
-	public MemberController() {
+	public AdminMemberController() {
 		memberService = Container.memberService;
 	}
 	

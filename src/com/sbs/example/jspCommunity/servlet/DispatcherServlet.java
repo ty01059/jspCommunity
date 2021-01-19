@@ -1,23 +1,45 @@
 package com.sbs.example.jspCommunity.servlet;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sbs.example.jspCommunity.container.Container;
-import com.sbs.example.jspCommunity.controller.user.ArticleController;
-import com.sbs.example.jspCommunity.controller.user.MemberController;
 import com.sbs.example.mysqlutil.MysqlUtil;
 
-@WebServlet("/user/*")
-public class DispatcherServlet extends HttpServlet {
+public abstract class DispatcherServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		run(req, resp);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doGet(req, resp);
+	}
+
+	public void run(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, Object> doBeforeActionRs = doBeforeAction(req, resp);
+
+		if (doBeforeActionRs == null) {
+			return;
+		}
+
+		String jspPath = doAction(req, resp, (String) doBeforeActionRs.get("controllerName"), (String) doBeforeActionRs.get("actionMethodName"));
+
+		if (jspPath == null) {
+			return;
+		}
+
+		doAfterAction(req, resp, jspPath);
+	}
+
+	private Map<String, Object> doBeforeAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html; charset=UTF-8");
 
@@ -26,56 +48,27 @@ public class DispatcherServlet extends HttpServlet {
 
 		if (requestUriBits.length < 5) {
 			resp.getWriter().append("올바른 요청이 아닙니다.");
-			return;
+			return null;
 		}
+
+		MysqlUtil.setDBInfo("127.0.0.1", "sbsblog", "sbs123", "jspCommunity");
 
 		String controllerName = requestUriBits[3];
 		String actionMethodName = requestUriBits[4];
 
-		MysqlUtil.setDBInfo("127.0.0.1", "sbsblog", "sbs123", "jspCommunity");
+		Map<String, Object> rs = new HashMap<>();
+		rs.put("controllerName", controllerName);
+		rs.put("actionMethodName", actionMethodName);
 
-		String jspPath = null;
+		return rs;
+	}
 
-		if (controllerName.equals("member")) {
-			MemberController memberController = Container.memberController;
+	protected abstract String doAction(HttpServletRequest req, HttpServletResponse resp, String controllerName, String actionMethodName);
 
-			if (actionMethodName.equals("list")) {
-				jspPath = memberController.showList(req, resp);
-			}
-		} else if (controllerName.equals("article")) {
-			ArticleController articleController = Container.articleController;
-
-			if (actionMethodName.equals("list")) {
-				jspPath = articleController.showList(req, resp);
-			}
-			else if (actionMethodName.equals("detail")) {
-				jspPath = articleController.showDetail(req, resp);
-			}
-			else if (actionMethodName.equals("write")) {
-				jspPath = articleController.showWrite(req, resp);
-			}
-			else if (actionMethodName.equals("doWrite")) {
-				jspPath = articleController.doWrite(req, resp);
-			}
-			else if (actionMethodName.equals("modify")) {
-				jspPath = articleController.showModify(req, resp);
-			}
-			else if (actionMethodName.equals("doModify")) {
-				jspPath = articleController.doModify(req, resp);
-			}
-			else if (actionMethodName.equals("doDelete")) {
-				jspPath = articleController.doDelete(req, resp);
-			}
-		}
-
+	private void doAfterAction(HttpServletRequest req, HttpServletResponse resp, String jspPath) throws ServletException, IOException {
 		MysqlUtil.closeConnection();
 
 		RequestDispatcher rd = req.getRequestDispatcher("/jsp/" + jspPath + ".jsp");
 		rd.forward(req, resp);
-	}
-	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		doGet(req, resp);
 	}
 }

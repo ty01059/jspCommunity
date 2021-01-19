@@ -10,10 +10,10 @@ import com.sbs.example.jspCommunity.dto.Article;
 import com.sbs.example.jspCommunity.dto.Board;
 import com.sbs.example.jspCommunity.service.ArticleService;
 
-public class ArticleController {
+public class UserArticleController {
 	private ArticleService articleService;
 
-	public ArticleController() {
+	public UserArticleController() {
 		articleService = Container.articleService;
 	}
 

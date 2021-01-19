@@ -5,15 +5,17 @@
 <head>
 
 <style type="text/css">
-.write > a {
-  background-color: #d2d2d2;
-  border-radius: 3px;
-  text-decoration: none;
-  color: white;
+.write>a {
+	background-color: #d2d2d2;
+	border-radius: 3px;
+	text-decoration: none;
+	color: white;
 }
 </style>
 
+<%@ include file="../common/formCheck.jsp"%>
+
 <meta charset="UTF-8" />
-<title><%=pageTitle%></title>
+<title>${pageTitle}</title>
 </head>
-<body> 
+<body>

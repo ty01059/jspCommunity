@@ -16,6 +16,9 @@ public @Data class Member {
 	private String cellphoneNo;
 	private int authLevel;
 
+	public Member() {
+	}
+
 	public Member(Map<String, Object> map) {
 		this.id = (int) map.get("id");
 		this.regDate = (String) map.get("regDate");
@@ -24,8 +27,15 @@ public @Data class Member {
 		this.loginPw = (String) map.get("loginPw");
 		this.name = (String) map.get("name");
 		this.nickname = (String) map.get("nickname");
-		this.email = (String) map.get("email");
-		this.cellphoneNo = (String) map.get("cellphoneNo");
-		this.authLevel = (int) map.get("authLevel");
+		
+		if (map.containsKey("email")) {
+			this.email = (String) map.get("email");			
+		}
+		if (map.containsKey("cellphoneNo")) {
+			this.cellphoneNo = (String) map.get("cellphoneNo");			
+		}
+		if (map.containsKey("authLevel")) {
+			this.authLevel = (int) map.get("authLevel");			
+		}
 	}
 }
