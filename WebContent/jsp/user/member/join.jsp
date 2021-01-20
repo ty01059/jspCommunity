@@ -3,9 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="pageTitle" value="회원가입" />
 <%@ include file="../../part/head.jspf"%>
-<h1>${pageTitle}</h1>
+<div class="joinBox">
 
-<div>
+	<h1>${pageTitle}</h1>
+
 	<script>
 	let DoJoinForm__submited = false;
 	function DoJoinForm__submit(form) {
@@ -88,7 +89,8 @@
 		DoJoinForm__submited = true;
 	}
 	</script>
-	<form action="doJoin" method="POST" onsubmit="DoJoinForm__submit(this); return false;">
+	<form action="doJoin" method="POST"
+		onsubmit="DoJoinForm__submit(this); return false;">
 		<hr />
 		<div>
 			<div>로그인 아이디</div>
@@ -107,7 +109,7 @@
 					placeholder="로그인 비밀버호를 입력해주세요." />
 			</div>
 		</div>
-		
+
 		<hr />
 
 		<div>
