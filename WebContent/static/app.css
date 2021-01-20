@@ -45,18 +45,39 @@ body, ul, li, h1, h2, h3 {
 	list-style: none;
 }
 
-body {
-	overflow: hidden;
-}
-
 a {
 	color: inherit;
 	text-decoration: none;
 }
 
 /* 라이브러리 */
+.con {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.flex {
+	display: flex;
+}
+
+.flex-direction-column {
+	flex-direction: column;
+}
+
+.justify-content-center {
+	justify-content: center;
+}
+
+.height-100vh {
+	height: 100vh;
+}
 
 /* 커스텀 */
+main {
+	flex-grow: 2;
+	margin-bottom: 20px;
+}
+
 .con-min-width {
 	min-width: 320px;
 }
@@ -65,14 +86,45 @@ a {
 	max-width: 1200px;
 }
 
-.joinBox {
-	display: flex;
-	justify-content: center;
+.con-min-height {
+	min-height: 60px;	
 }
 
-.joinBox>form {
+.title-bar {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.title-bar > h1{
+	text-align: center;
+}
+
+.menubar {
+	text-align: center;
+    height: 40px;
+    background-color: rgba(192, 234, 251, 0.5);
+}
+
+.menubar > a {
+	padding-left:10px;
+	padding-right:10px;
+	font-size: 23px;
+}
+
+.formBox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.formBox > form {
 	background-color: rgba(192, 234, 251, 0.5);
+	width: 350px;
 	border-radius: 3px;
 	padding: 10px;
 	border-radius: 5px;
+}
+
+footer {
+	background-color: rgba(192, 234, 251, 0.5);
 }

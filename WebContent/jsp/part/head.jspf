@@ -4,20 +4,27 @@
 <html lang="ko">
 <head>
 
-<link rel="stylesheet" href="jspCommunity/static/app.css" type="text/css" />
+<!-- 제이쿼리 불러오기 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- 폰트어썸 불러오기 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/app.css" />
+<script src="${pageContext.request.contextPath}/static/app.js" defer></script>
 
 <meta charset="UTF-8" />
 <title>${pageTitle}</title>
 </head>
 <body>
-
+<div class="flex flex-direction-column height-100vh">
 <c:if test="${sessionScope.loginedMemberId > 0}">
 	<div>
 		로그인된 회원의 번호 : ${sessionScope.loginedMemberId}
 	</div>
 </c:if>
 
-<div>
+<div class="menubar flex justify-content-center">
 	<a href="../article/list?boardId=1">공지사항 게시물 리스트</a>
 	<a href="../home/main">HOME</a>
 	
@@ -32,3 +39,5 @@
 	</c:if>
 	
 </div>
+
+<main>
