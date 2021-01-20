@@ -3,8 +3,8 @@ package com.sbs.example.jspCommunity.controller.user;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class UsrHomeController {
+public class UserHomeController {
 	public String showMain(HttpServletRequest req, HttpServletResponse resp) {
-		return "usr/home/main";
+		return "user/home/main";
 	}
 }

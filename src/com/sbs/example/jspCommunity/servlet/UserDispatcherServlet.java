@@ -1,18 +1,13 @@
 package com.sbs.example.jspCommunity.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sbs.example.jspCommunity.container.Container;
 import com.sbs.example.jspCommunity.controller.user.UserArticleController;
+import com.sbs.example.jspCommunity.controller.user.UserHomeController;
 import com.sbs.example.jspCommunity.controller.user.UserMemberController;
-import com.sbs.example.mysqlutil.MysqlUtil;
 
 @WebServlet("/user/*")
 public class UserDispatcherServlet extends DispatcherServlet {

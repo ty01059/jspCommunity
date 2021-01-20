@@ -18,11 +18,11 @@ public class MemberService {
 		return memberDao.getForPrintMembers();
 	}
 	
-	public Member getForPrintMember(String loginId) {
-		return memberDao.getForPrintMember(loginId);
-	}
-	
 	public int join(Member member) {
 		return memberDao.join(member);
+	}
+	
+	public Member getMemberByLoginId(String loginId) {
+		return memberDao.getMemberByLoginId(loginId);
 	}
 }

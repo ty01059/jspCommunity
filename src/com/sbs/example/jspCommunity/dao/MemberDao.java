@@ -27,7 +27,7 @@ public class MemberDao {
 		return members;
 	}
 
-	public Member getForPrintMember(String loginId) {
+	public Member getMemberByLoginId(String loginId) {
 		SecSql sql = new SecSql();
 		sql.append("SELECT M.*");
 		sql.append("FROM `member` AS M");
@@ -39,9 +39,7 @@ public class MemberDao {
 			return null;
 		}
 		
-		Member member = new Member(map);
-		
-		return member;
+		return new Member(map);
 	}
 
 	public int join(Member member) {
@@ -54,6 +52,7 @@ public class MemberDao {
 		sql.append(", `name` = ?", member.getName());
 		sql.append(", nickname = ?", member.getNickname());
 		sql.append(", email = ?", member.getEmail());
+		sql.append(", cellphoneNo = ?", member.getCellphoneNo());
 
 		return MysqlUtil.insert(sql);
 	}

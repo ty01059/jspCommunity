@@ -1,20 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<c:set var="pageTitle" value="${board.name} 게시물 수정" />
 <%@ include file="../../part/head.jspf"%>
-<h1><c:out value="게시물 수정페이지"/></h1>
+<h1>${pageTitle}</h1>
 
 <div>
 	<form action="doModify" method="POST">
-		<input type="hidden" name="memberId" value="${memberId}" />
 		<input type="hidden" name="id" value="${article.id}" />
-
+		
 		<hr />
 		<div>
 			<div>제목</div>
 			<div>
 				<input name="title" type="text" maxlength="50"
-					placeholder="제목을 입력해주세요." />
+					placeholder="제목을 입력해주세요." value="${article.title}" />
 			</div>
 		</div>
 
@@ -23,7 +24,7 @@
 		<div>
 			<div>내용</div>
 			<div>
-				<textarea placeholder="내용을 입력해주세요." name="body" maxlength="5000"></textarea>
+				<textarea placeholder="내용을 입력해주세요." name="body" maxlength="5000">${article.body}</textarea>
 			</div>
 		</div>
 		<hr />
