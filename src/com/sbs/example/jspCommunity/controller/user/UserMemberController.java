@@ -1,8 +1,6 @@
 package com.sbs.example.jspCommunity.controller.user;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -134,5 +132,23 @@ public class UserMemberController {
 		req.setAttribute("alertMsg", String.format("%s님 환영합니다.", member.getNickname()));
 		req.setAttribute("replaceUrl", "../home/main");
 		return "common/redirect";
+	}
+	
+	public String getLoginIdDup(HttpServletRequest req, HttpServletResponse resp) {
+		String loginId = req.getParameter("loginId");
+
+		Member member = memberService.getMemberByLoginId(loginId);
+
+		String data = "";
+
+		if ( member != null ) {
+			data = "NO";
+		}
+		else {
+			data = "YES";
+		}
+
+		req.setAttribute("data", data);
+		return "common/pure";
 	}
 }

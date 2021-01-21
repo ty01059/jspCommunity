@@ -31,7 +31,7 @@ public class MemberDao {
 		SecSql sql = new SecSql();
 		sql.append("SELECT M.*");
 		sql.append("FROM `member` AS M");
-		sql.append("WHERE M.loginId = ?", loginId);
+		sql.append("WHERE loginId = ?", loginId);
 
 		Map<String, Object> map = MysqlUtil.selectRow(sql);
 		
