@@ -12,7 +12,8 @@ import com.sbs.example.jspCommunity.controller.user.UserMemberController;
 @WebServlet("/user/*")
 public class UserDispatcherServlet extends DispatcherServlet {
 	@Override
-	protected String doAction(HttpServletRequest req, HttpServletResponse resp, String controllerName, String actionMethodName) {
+	protected String doAction(HttpServletRequest req, HttpServletResponse resp, String controllerName,
+			String actionMethodName) {
 		String jspPath = null;
 
 		if (controllerName.equals("home")) {
@@ -26,6 +27,14 @@ public class UserDispatcherServlet extends DispatcherServlet {
 
 			if (actionMethodName.equals("list")) {
 				jspPath = memberController.showList(req, resp);
+			} else if (actionMethodName.equals("findLoginId")) {
+				jspPath = memberController.showFindLoginId(req, resp);
+			} else if (actionMethodName.equals("doFindLoginId")) {
+				jspPath = memberController.doFindLoginId(req, resp);
+			} else if (actionMethodName.equals("findLoginPw")) {
+				jspPath = memberController.showFindLoginPw(req, resp);
+			} else if (actionMethodName.equals("doFindLoginPw")) {
+				jspPath = memberController.doFindLoginPw(req, resp);
 			} else if (actionMethodName.equals("join")) {
 				jspPath = memberController.showJoin(req, resp);
 			} else if (actionMethodName.equals("doJoin")) {
