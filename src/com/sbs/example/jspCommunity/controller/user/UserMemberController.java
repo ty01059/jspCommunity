@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import com.sbs.example.jspCommunity.container.Container;
 import com.sbs.example.jspCommunity.dto.Member;
+import com.sbs.example.jspCommunity.dto.ResultData;
 import com.sbs.example.jspCommunity.service.MemberService;
 
 public class UserMemberController {
@@ -227,9 +228,15 @@ public class UserMemberController {
 			return "common/redirect";
 		}
 
-		memberService.sendTempLoginPwToEmail(member);
+		ResultData sendTempLoginPwToEmailRs = memberService.sendTempLoginPwToEmail(member);
 
-		req.setAttribute("alertMsg", String.format("고객님의 새 임시 패스워드가 %s (으)로 발송되었습니다.", member.getEmail()));
+		if ( sendTempLoginPwToEmailRs.isFail() ) {
+			req.setAttribute("alertMsg", sendTempLoginPwToEmailRs.getMsg());
+			req.setAttribute("historyBack", true);
+			return "common/redirect";
+		}
+
+		req.setAttribute("alertMsg", sendTempLoginPwToEmailRs.getMsg());
 		req.setAttribute("replaceUrl", "../member/login");
 		return "common/redirect";
 	}

@@ -5,41 +5,43 @@
 <head>
 
 <!-- 제이쿼리 불러오기 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <!-- 폰트어썸 불러오기 -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/app.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/static/app.css" />
 <script src="${pageContext.request.contextPath}/static/app.js" defer></script>
 
 <meta charset="UTF-8" />
 <title>${pageTitle}</title>
 </head>
 <body>
-<div class="flex flex-direction-column height-100vh">
-<c:if test="${isLogined}">
-	<div>
-		로그인된 회원의 닉네임 : ${loginedMember.nickname}
-	</div>
-</c:if>
+	<div class="flex flex-direction-column height-100vh">
+		<c:if test="${isLogined}">
+		</c:if>
 
-<div class="menubar flex justify-content-center">
-	<a href="../article/list?boardId=1">공지사항 게시물 리스트</a>
-	<a href="../home/main">HOME</a>
-	
-	<c:if test="${isLogined}">
-		<a href="../article/write?boardId=1">공지사항 글쓰기</a>
-		<a href="../member/doLogout">로그아웃</a>
-	</c:if>
-	
-	<c:if test="${isLogined == false}">
-		<a href="../member/login">로그인</a>
-		<a href="../member/join">회원가입</a>
-		<a href="../member/findLoginId">로그인아이디 찾기</a>
-		<a href="../member/findLoginPw">로그인비번 찾기</a>
-	</c:if>
-	
-</div>
+		<div class="menubar flex justify-content-center">
+			<a href="../article/list?boardId=1">공지사항 게시물 리스트</a> <a
+				href="../home/main">HOME</a>
 
-<main>
+			<c:if test="${isLogined}">
+				<a href="../article/write?boardId=1">공지사항 글쓰기</a>
+				<a href="../member/doLogout">로그아웃</a>
+			</c:if>
+
+			<c:if test="${isLogined == false}">
+				<a href="../member/login">로그인</a>
+				<a href="../member/join">회원가입</a>
+				<a href="../member/findLoginId">로그인아이디 찾기</a>
+				<a href="../member/findLoginPw">로그인비번 찾기</a>
+			</c:if>
+
+		</div>
+
+		<div>로그인된 회원의 닉네임 : ${loginedMember.nickname}</div>
+
+		<main>
