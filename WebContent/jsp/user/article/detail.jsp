@@ -17,7 +17,8 @@
 	<br />
 	제목 : ${article.title}
 	<br />
-	내용 : ${article.body}
+	<script type="text/x-template">${article.body}</script>
+	<div class="toast-ui-viewer"></div>
 </div>
 
 <hr />

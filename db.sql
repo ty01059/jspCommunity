@@ -129,3 +129,25 @@ ALTER TABLE `member` CHANGE `adminLevel` `authLevel` TINYINT(1) UNSIGNED DEFAULT
 # 기존회원의 비번을 암호화
 UPDATE `member`
 SET loginPw = SHA2(loginPw, 256);
+
+# 부가정보 테이블
+# attr 만료날짜 추가
+create table attr (
+	id int(10) unsigned not null primary key auto_increment,
+	regDate datetime not null,
+	updateDate datetime not null,
+	`relTypeCode` char(20) not null,
+	`relId` int(10) unsigned not null,
+	`typeCode` char(30) not null,
+	`type2Code` char(30) not null,
+	`value` char(30) not null,
+	`expireDate` datetime not null
+);
+
+# attr 유니크 인덱스 걸기
+# 중복변수 생성금지
+# 변수찾는 속도 최적화
+alter table `attr` add unique index (`relTypeCode`, `relId`, `typeCode`, `type2Code`);
+
+# 특정 조건을 만족하는 회원 또는 게시물(기타 데이터)를 빠르게 찾기 위해서
+alter table `attr` add index(`relTypeCode`, `typeCode`, `type2Code`);

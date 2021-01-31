@@ -4,7 +4,8 @@
 <c:set var="pageTitle" value="회원가입" />
 <%@ include file="../../part/head.jspf"%>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
 
 <div class="formBox flex flex-direction-column">
 
@@ -20,25 +21,29 @@
 		function DoJoinForm__checkLoginIdDup(el) {
 			const from = $(el).closest('form').get(0);
 			const loginId = from.loginId.value;
-			
-			$.get(
-				"getLoginIdDup",
-				{
-					loginId
-				},
-				function(data) {
-					if ( data == "YES" ) {
-						alert("해당 로그인 아이디는 사용가능합니다.");
-						DoJoinForm__checkedLoginId = loginId;
-					}
-					else {
-						alert("해당 로그인 아이디는 이미 사용중 입니다.");
-					}
-				},
-				"html"
-			);
+
+			if(loginId != null) {
+				$.get(
+					"getLoginIdDup",
+					{
+						loginId
+					},
+					function(data) {
+						if ( data == "YES" ) {
+							alert("해당 로그인 아이디는 사용가능합니다.");
+							DoJoinForm__checkedLoginId = loginId;
+						}
+						else {
+							alert("해당 로그인 아이디는 이미 사용중 입니다.");
+						}
+					},
+					"html"
+				);
+			} else {
+				alert('로그인 아이디를 입력해주세요.');
+				return;
+			}
 		}
-		
 		
 		// 폼 발송전 체크
 		function DoJoinForm__submit(form) {
@@ -134,9 +139,9 @@
 
 	<form action="doJoin" method="POST"
 		onsubmit="DoJoinForm__submit(this); return false;">
-		
+
 		<input type="hidden" name="loginPwReal" />
-		
+
 		<div>
 			<div>
 				로그인 아이디 : <input name="loginId" type="text" maxlength="50"

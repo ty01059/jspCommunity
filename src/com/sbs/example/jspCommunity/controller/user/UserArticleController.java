@@ -9,6 +9,7 @@ import com.sbs.example.jspCommunity.container.Container;
 import com.sbs.example.jspCommunity.dto.Article;
 import com.sbs.example.jspCommunity.dto.Board;
 import com.sbs.example.jspCommunity.service.ArticleService;
+import com.sbs.example.jspCommunity.service.MemberService;
 import com.sbs.example.util.Util;
 
 public class UserArticleController {
@@ -89,8 +90,10 @@ public class UserArticleController {
 			return "common/redirect";
 		}
 
+		article.setHitsCount(article.getHitsCount() + 1);
+		articleService.modify(article);
+		
 		req.setAttribute("article", article);
-
 		return "user/article/detail";
 	}
 

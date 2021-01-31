@@ -88,6 +88,8 @@ public abstract class DispatcherServlet extends HttpServlet {
 		List<String> needToLoginActionUrls = new ArrayList<>();
 
 		needToLoginActionUrls.add("/user/member/doLogout");
+		needToLoginActionUrls.add("/user/member/modify");
+		needToLoginActionUrls.add("/user/member/doModify");
 		needToLoginActionUrls.add("/user/article/write");
 		needToLoginActionUrls.add("/user/article/doWrite");
 		needToLoginActionUrls.add("/user/article/modify");
@@ -105,6 +107,31 @@ public abstract class DispatcherServlet extends HttpServlet {
 		}
 
 		// 로그인 필요 필터링 인터셉터 끝
+
+		// 로그아웃 필요 필터링 인터셉터 시작
+		List<String> needToLogoutActionUrls = new ArrayList<>();
+
+		needToLogoutActionUrls.add("/user/member/login");
+		needToLogoutActionUrls.add("/user/member/doLogin");
+		needToLogoutActionUrls.add("/user/member/join");
+		needToLogoutActionUrls.add("/user/member/doJoin");
+		needToLogoutActionUrls.add("/user/member/findLoginId");
+		needToLogoutActionUrls.add("/user/member/doFindLoginId");
+		needToLogoutActionUrls.add("/user/member/findLoginPw");
+		needToLogoutActionUrls.add("/user/member/doFindLoginPw");
+
+		if (needToLogoutActionUrls.contains(actionUrl)) {
+			if ((boolean) req.getAttribute("isLogined")) {
+				req.setAttribute("alertMsg", "로그아웃 후 이용해주세요.");
+				req.setAttribute("historyBack", true);
+
+				RequestDispatcher rd = req.getRequestDispatcher("/jsp/common/redirect.jsp");
+				rd.forward(req, resp);
+			}
+		}
+
+		// 로그아웃 필요 필터링 인터셉터 끝
+
 		Map<String, Object> rs = new HashMap<>();
 		rs.put("controllerName", controllerName);
 		rs.put("actionMethodName", actionMethodName);

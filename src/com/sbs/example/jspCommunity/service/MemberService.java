@@ -57,19 +57,20 @@ public class MemberService {
 		}
 
 		setTempPassword(actor, tempPassword);
-
+		memberDao.setMemberTempPw(actor.getId());
+		
 		String resultMsg = String.format("고객님의 새 임시 패스워드가 %s (으)로 발송되었습니다.", actor.getEmail());
 		return new ResultData("S-1", resultMsg, "email", actor.getEmail());
 	}
 
-	private void setTempPassword(Member actor, String tempPassword) {
+	public void setTempPassword(Member actor, String tempPassword) {
 		Map<String, Object> modifyParam = new HashMap<>();
 		modifyParam.put("id", actor.getId());
 		modifyParam.put("loginPw", Util.sha256(tempPassword));
 		modify(modifyParam);
 	}
 
-	private void modify(Map<String, Object> param) {
+	public void modify(Map<String, Object> param) {
 		memberDao.modify(param);
 	}
 }

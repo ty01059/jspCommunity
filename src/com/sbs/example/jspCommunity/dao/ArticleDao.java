@@ -107,7 +107,8 @@ public class ArticleDao {
 		SecSql sql = new SecSql();
 		sql.append("UPDATE article");
 		sql.append("SET updateDate = NOW()");
-
+		sql.append("`hitsCount` = ?", article.getHitsCount());
+		
 		boolean needToUpdate = false;
 
 		if (article.getTitle() != null) {
@@ -119,7 +120,7 @@ public class ArticleDao {
 			needToUpdate = true;
 			sql.append(", `body` = ?", article.getBody());
 		}
-
+		
 		if (needToUpdate == false) {
 			return 0;
 		}

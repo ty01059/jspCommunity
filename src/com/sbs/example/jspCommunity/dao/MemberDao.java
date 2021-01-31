@@ -53,6 +53,8 @@ public class MemberDao {
 		sql.append(", nickname = ?", member.getNickname());
 		sql.append(", email = ?", member.getEmail());
 		sql.append(", cellphoneNo = ?", member.getCellphoneNo());
+		sql.append(", tempPw = 0");
+		sql.append(", pwDate = DATE_ADD(NOW(), INTERVAL 90 DAY)");
 
 		return MysqlUtil.insert(sql);
 	}
@@ -100,6 +102,7 @@ public class MemberDao {
 		if (args.get("loginPw") != null) {
 			needToUpdate = true;
 			sql.append(", loginPw = ?", args.get("loginPw"));
+			sql.append(", pwDate = DATE_ADD(NOW(), INTERVAL 90 DAY)");
 		}
 
 		if (args.get("name") != null) {
@@ -133,6 +136,16 @@ public class MemberDao {
 
 		sql.append("WHERE id = ?", args.get("id"));
 
+		return MysqlUtil.update(sql);
+	}
+	
+	public int setMemberTempPw(int id) {
+		SecSql sql = new SecSql();
+		sql.append("UPDATE member");
+		sql.append("SET updateDate = NOW()");
+		sql.append(", tempPw = 1");
+		sql.append("WHERE id = ?", id);
+		
 		return MysqlUtil.update(sql);
 	}
 }
