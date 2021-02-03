@@ -15,10 +15,12 @@ public class MemberService {
 
 	private MemberDao memberDao;
 	private EmailService emailService;
+	private AttrService attrService;
 	
 	public MemberService() {
 		memberDao = Container.memberDao;
 		emailService = Container.emailService;
+		attrService = Container.attrService;
 	}
 
 	public List<Member> getForPrintMembers() {
@@ -26,7 +28,11 @@ public class MemberService {
 	}
 	
 	public int join(Member member) {
-		return memberDao.join(member);
+		int id = memberDao.join(member);
+
+		setLoginPwModifiedNow(id);
+
+		return id;
 	}
 	
 	public Member getMemberByLoginId(String loginId) {
@@ -57,7 +63,6 @@ public class MemberService {
 		}
 
 		setTempPassword(actor, tempPassword);
-		memberDao.setMemberTempPw(actor.getId());
 		
 		String resultMsg = String.format("고객님의 새 임시 패스워드가 %s (으)로 발송되었습니다.", actor.getEmail());
 		return new ResultData("S-1", resultMsg, "email", actor.getEmail());
@@ -68,9 +73,50 @@ public class MemberService {
 		modifyParam.put("id", actor.getId());
 		modifyParam.put("loginPw", Util.sha256(tempPassword));
 		modify(modifyParam);
+		
+		setIsUsingTempPassword(actor.getId(), true);
 	}
 
+	public void setIsUsingTempPassword(int actorId, boolean use) {
+		attrService.setValue("member__" + actorId + "__extra__isUsingTempPassword", use, null);
+	}
+
+	public boolean isUsingTempPassword(int actorId) {
+		return attrService.getValueAsBoolean("member__" + actorId + "__extra__isUsingTempPassword");
+	}
+	
 	public void modify(Map<String, Object> param) {
+		
+		if ( param.get("loginPw") != null ) {
+			setLoginPwModifiedNow((int)param.get("id"));
+		}
+		
 		memberDao.modify(param);
+	}
+	
+	private void setLoginPwModifiedNow(int actorId) {
+		attrService.setValue("member__" + actorId + "__extra__loginPwModifiedDate", Util.getNowDateStr(), null);
+	}
+
+	public int getOldPasswordDays() {
+		return 90;
+	}
+
+	public boolean isNeedToModifyOldLoginPw(int actorId) {
+		String date = attrService.getValue("member__" + actorId + "__extra__loginPwModifiedDate");
+
+		if ( Util.isEmpty(date) ) {
+			return true;
+		}
+
+		int pass = Util.getPassedSecondsFrom(date);
+
+		int oldPasswordDays = getOldPasswordDays();
+
+		if ( pass > oldPasswordDays * 60 * 60 * 24 ) {
+			return true;
+		}
+
+		return false;
 	}
 }

@@ -63,7 +63,8 @@
 	<div>
 		번호 : ${article.id} <br /> 작성날짜 : ${article.regDate} <br /> 갱신날짜 :
 		${article.updateDate} <br /> 작성자 : ${article.extra__writer} <br />
-		제목 : <a href="detail?id=${article.id}">${article.title}</a>
+		제목 : <a href="detail?id=${article.id}">${article.title}</a> <br />
+		조회수 : ${article.hitsCount}
 		<hr />
 	</div>
 </c:forEach>

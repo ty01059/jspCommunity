@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS jspCommunity;
+ROP DATABASE IF EXISTS jspCommunity;
 CREATE DATABASE jspCommunity;
 USE jspCommunity;
 
@@ -12,8 +12,7 @@ CREATE TABLE `member` (
     `email` VARCHAR(100) NOT NULL,
     loginId CHAR(50) NOT NULL UNIQUE,
     loginPw VARCHAR(200) NOT NULL,
-    adminLevel TINYINT(1) UNSIGNED NOT NULL DEFAULT 2 COMMENT '0=탈퇴/1=로그인정지/2=일반/3=인증된,4=관리자',
-    `pwDate` DATETIME NOT NULL
+    adminLevel TINYINT(1) UNSIGNED NOT NULL DEFAULT 2 COMMENT '0=탈퇴/1=로그인정지/2=일반/3=인증된,4=관리자'
 );
 
 # 회원1 생성
@@ -24,8 +23,7 @@ updateDate = NOW(),
 `nickname` = "강바람",
 `email` = "jangka512@gmail.com",
 loginId = "user1",
-loginPw = "user1",
-`pwDate` = DATE_ADD(NOW(), INTERVAL 90 DAY);
+loginPw = "user1";
 
 # 회원2 생성
 INSERT INTO `member`
@@ -35,10 +33,9 @@ updateDate = NOW(),
 `nickname` = "이또한지나가리라",
 `email` = "jangka512@gmail.com",
 loginId = "user2",
-loginPw = "user2",
-`pwDate` = DATE_ADD(NOW(), INTERVAL 90 DAY);
+loginPw = "user2";
 
-# 게시판 테이블 생성`member`
+# 게시판 테이블 생성
 CREATE TABLE board (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
@@ -127,29 +124,34 @@ ALTER TABLE `member` CHANGE `loginId` `loginId` CHAR(50) NOT NULL AFTER `updateD
                      ADD COLUMN `cellphoneNo` CHAR(20) NOT NULL AFTER `email`;
                      
 # adminLevel을 authLevel로 변경
-ALTER TABLE `member` CHANGE `adminLevel` `authLevel` TINYINT(1) UNSIGNED DEFAULT 2 NOT NULL COMMENT '0=탈퇴/1=로그인정지/2=일반/3=인증된,4=관리자';
+ALTER TABLE `member` CHANGE `adminLevel` `authLevel` TINYINT(1) UNSIGNED DEFAULT 2 NOT NULL COMMENT '0=탈퇴/1=로그인정지/2=일반/3=인증된,4=관리자'; 
 
-# 임시패스워드 사용 여부
-ALTER TABLE `member` add `tempPw` TINYINT(1) UNSIGNED NOT NULL '0=임시비번X, 1=임시비번사용중';
+# 기존회원의 비번을 암호화
+UPDATE `member`
+SET loginPw = SHA2(loginPw, 256);
 
-create table attr (
-	id int(10) unsigned not null primary key auto_increment,
-	regDate datetime not null,
-	updateDate datetime not null,
-	`relTypeCode` char(20) not null,
-	`relId` int(10) unsigned not null,
-	`typeCode` char(30) not null,
-	`type2Code` char(30) not null,
-	`value` char(30) not null,
-	`expireDate` datetime not null
+# 부가정보테이블
+CREATE TABLE attr (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    `relTypeCode` CHAR(20) NOT NULL,
+    `relId` INT(10) UNSIGNED NOT NULL,
+    `typeCode` CHAR(30) NOT NULL,
+    `type2Code` CHAR(30) NOT NULL,
+    `value` TEXT NOT NULL
 );
 
 # attr 유니크 인덱스 걸기
-# 중복변수 생성금지
-# 변수찾는 속도 최적화
-alter table `attr` add unique index (`relTypeCode`, `relId`, `typeCode`, `type2Code`);
+## 중복변수 생성금지
+## 변수찾는 속도 최적화
+ALTER TABLE `attr` ADD UNIQUE INDEX (`relTypeCode`, `relId`, `typeCode`, `type2Code`); 
 
-# 특정 조건을 만족하는 회원 또는 게시물(기타 데이터)를 빠르게 찾기 위해서
-alter table `attr` add index(`relTypeCode`, `typeCode`, `type2Code`);
+## 특정 조건을 만족하는 회원 또는 게시물(기타 데이터)를 빠르게 찾기 위해서
+ALTER TABLE `attr` ADD INDEX (`relTypeCode`, `typeCode`, `type2Code`);
 
-select now(), date_add(now(), INTERVAL 90 DAY);
+# attr에 만료날짜 추가
+ALTER TABLE `attr` ADD COLUMN `expireDate` DATETIME NULL AFTER `value`;
+
+# 좋아요 테이블 추가
+# 댓글 테이블 추가

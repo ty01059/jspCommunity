@@ -43,7 +43,8 @@
 	}
 	</script>
 	<form action="doWrite" method="POST" onsubmit="DoWriteForm__submit(this); return false;">
-		<input type="hidden" name="boardId" />
+		<input type="hidden" name="boardId" value="${board.id}" />
+		<input type="hidden" name="body" />
 
 		<hr />
 		<div>

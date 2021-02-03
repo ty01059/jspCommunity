@@ -3,10 +3,13 @@ package com.sbs.example.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
 import java.security.MessageDigest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -44,7 +47,8 @@ public class Util {
 		return rs;
 	}
 
-	public static int sendMail(String smtpServerId, String smtpServerPw, String from, String fromName, String to, String title, String body) {
+	public static int sendMail(String smtpServerId, String smtpServerPw, String from, String fromName, String to,
+			String title, String body) {
 		Properties prop = System.getProperties();
 		prop.put("mail.smtp.starttls.enable", "true");
 		prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -80,10 +84,11 @@ public class Util {
 
 		return 1;
 	}
-	
+
 	public static String getTempPassword(int length) {
 		int index = 0;
-		char[] charArr = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+		char[] charArr = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
+				'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
 		StringBuffer sb = new StringBuffer();
 
@@ -115,28 +120,65 @@ public class Util {
 			return "";
 		}
 	}
-	
+
 	public static int getAsInt(Object value, int defaultValue) {
-		if ( value instanceof Integer ) {
-			return (int)value;
-		}
-		else if ( value instanceof Long ) {
-			return Long.valueOf((long)value).intValue();
-		}
-		else if ( value instanceof Float ) {
-			return Float.valueOf((float)value).intValue();
-		}
-		else if ( value instanceof Double ) {
-			return Double.valueOf((double)value).intValue();
-		}
-		else if ( value instanceof String ) {
+		if (value instanceof Integer) {
+			return (int) value;
+		} else if (value instanceof Long) {
+			return Long.valueOf((long) value).intValue();
+		} else if (value instanceof Float) {
+			return Float.valueOf((float) value).intValue();
+		} else if (value instanceof Double) {
+			return Double.valueOf((double) value).intValue();
+		} else if (value instanceof String) {
 			try {
-				return Integer.parseInt((String)value);
-			}
-			catch ( NumberFormatException e ) {
+				return Integer.parseInt((String) value);
+			} catch (NumberFormatException e) {
 			}
 		}
 
 		return defaultValue;
+	}
+
+	public static boolean isEmpty(Object obj) {
+		if (obj == null) {
+			return true;
+		}
+
+		if (obj instanceof String) {
+			if (((String) obj).trim().length() == 0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static String getUrlEncoded(String url) {
+		try {
+			return URLEncoder.encode(url, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return url;
+		}
+	}
+
+	public static String getNowDateStr() {
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String dateStr = format1.format(System.currentTimeMillis());
+
+		return dateStr;
+	}
+
+	public static int getPassedSecondsFrom(String from) {
+		SimpleDateFormat fDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Date n;
+		try {
+			n = fDate.parse(from);
+		} catch (ParseException e) {
+			return -1;
+		}
+
+		return (int) ((new Date().getTime() - n.getTime()) / 1000);
 	}
 }

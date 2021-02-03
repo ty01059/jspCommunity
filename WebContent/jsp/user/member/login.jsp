@@ -46,10 +46,9 @@
 			DoLoginForm__submited = true;
 		}
 	</script>
-	<form action="doLogin" method="POST"
-		onsubmit="DoLoginForm__submit(this); return false;">
-		
+	<form action="doLogin" method="POST" onsubmit="DoLoginForm__submit(this); return false;">
 		<input type="hidden" name="loginPwReal" />
+		<input type="hidden" name="afterLoginUrl" value="${param.afterLoginUrl}" />
 		
 		<div>
 			<div>
