@@ -6,10 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sbs.example.jspCommunity.container.Container;
+import com.sbs.example.jspCommunity.controller.Controller;
 import com.sbs.example.jspCommunity.dto.Member;
 import com.sbs.example.jspCommunity.service.MemberService;
 
-public class AdminMemberController {
+public class AdminMemberController extends Controller {
 	private MemberService memberService;
 	
 	public AdminMemberController() {

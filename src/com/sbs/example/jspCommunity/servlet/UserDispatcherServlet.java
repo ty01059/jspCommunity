@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sbs.example.jspCommunity.container.Container;
 import com.sbs.example.jspCommunity.controller.user.UserArticleController;
 import com.sbs.example.jspCommunity.controller.user.UserHomeController;
+import com.sbs.example.jspCommunity.controller.user.UserLikeController;
 import com.sbs.example.jspCommunity.controller.user.UserMemberController;
 
 @WebServlet("/user/*")
@@ -17,13 +18,13 @@ public class UserDispatcherServlet extends DispatcherServlet {
 		String jspPath = null;
 
 		if (controllerName.equals("home")) {
-			UserHomeController homeController = Container.homeController;
+			UserHomeController homeController = Container.userHomeController;
 
 			if (actionMethodName.equals("main")) {
 				jspPath = homeController.showMain(req, resp);
 			}
 		} else if (controllerName.equals("member")) {
-			UserMemberController memberController = Container.memberController;
+			UserMemberController memberController = Container.userMemberController;
 
 			if (actionMethodName.equals("list")) {
 				jspPath = memberController.showList(req, resp);
@@ -53,7 +54,7 @@ public class UserDispatcherServlet extends DispatcherServlet {
 				jspPath = memberController.getLoginIdDup(req, resp);
 			}
 		} else if (controllerName.equals("article")) {
-			UserArticleController articleController = Container.articleController;
+			UserArticleController articleController = Container.userArticleController;
 
 			if (actionMethodName.equals("list")) {
 				jspPath = articleController.showList(req, resp);
@@ -69,6 +70,18 @@ public class UserDispatcherServlet extends DispatcherServlet {
 				jspPath = articleController.doWrite(req, resp);
 			} else if (actionMethodName.equals("doDelete")) {
 				jspPath = articleController.doDelete(req, resp);
+			}
+		} else if (controllerName.equals("like")) {
+			UserLikeController likeController = Container.userLikeController;
+
+			if (actionMethodName.equals("doLike")) {
+				jspPath = likeController.doLike(req, resp);
+			} else if (actionMethodName.equals("doCancelLike")) {
+				jspPath = likeController.doCancelLike(req, resp);
+			} else if (actionMethodName.equals("doDislike")) {
+				jspPath = likeController.doDislike(req, resp);
+			} else if (actionMethodName.equals("doCancelDislike")) {
+				jspPath = likeController.doCancelDislike(req, resp);
 			}
 		}
 

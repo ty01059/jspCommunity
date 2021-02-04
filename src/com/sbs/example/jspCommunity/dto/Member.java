@@ -15,8 +15,6 @@ public @Data class Member {
 	private String email;
 	private String cellphoneNo;
 	private int authLevel;
-	private int tempPw;
-	private String pwDate;
 
 	public Member() {
 	}
@@ -29,8 +27,6 @@ public @Data class Member {
 		this.loginPw = (String) map.get("loginPw");
 		this.name = (String) map.get("name");
 		this.nickname = (String) map.get("nickname");
-		this.tempPw = (int) map.get("tempPw");
-		this.pwDate = (String) map.get("pwDate");
 		
 		if (map.containsKey("email")) {
 			this.email = (String) map.get("email");			

@@ -1,4 +1,4 @@
-ROP DATABASE IF EXISTS jspCommunity;
+DROP DATABASE IF EXISTS jspCommunity;
 CREATE DATABASE jspCommunity;
 USE jspCommunity;
 
@@ -154,4 +154,15 @@ ALTER TABLE `attr` ADD INDEX (`relTypeCode`, `typeCode`, `type2Code`);
 ALTER TABLE `attr` ADD COLUMN `expireDate` DATETIME NULL AFTER `value`;
 
 # 좋아요 테이블 추가
-# 댓글 테이블 추가
+CREATE TABLE `like` (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    relTypeCode CHAR(30) NOT NULL,
+    relId INT(10) UNSIGNED NOT NULL,
+    memberId INT(10) UNSIGNED NOT NULL,
+    `point` SMALLINT(1) NOT NULL
+);
+
+# 좋아요 인덱스
+ALTER TABLE `jspCommunity`.`like` ADD INDEX (`relTypeCode`, `relId`, `memberId`);  
