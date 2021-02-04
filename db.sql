@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS jspCommunity;
 CREATE DATABASE jspCommunity;
 USE jspCommunity;
-
+# 리모트 서버에 테이블 생성시 붙일것. DEFAULT CHARSET=utf8mb4
 # 회원 테이블 생성
 CREATE TABLE `member` (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
