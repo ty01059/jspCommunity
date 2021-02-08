@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sbs.example.jspCommunity.App;
 import com.sbs.example.jspCommunity.container.Container;
 import com.sbs.example.jspCommunity.dto.Member;
 import com.sbs.example.mysqlutil.MysqlUtil;
@@ -36,8 +37,7 @@ public abstract class DispatcherServlet extends HttpServlet {
 			return;
 		}
 
-		String jspPath = doAction(req, resp, (String) doBeforeActionRs.get("controllerName"),
-				(String) doBeforeActionRs.get("actionMethodName"));
+		String jspPath = doAction(req, resp, (String) doBeforeActionRs.get("controllerName"), (String) doBeforeActionRs.get("actionMethodName"));
 
 		if (jspPath == null) {
 			resp.getWriter().append("jsp 정보가 없습니다.");
@@ -47,37 +47,44 @@ public abstract class DispatcherServlet extends HttpServlet {
 		doAfterAction(req, resp, jspPath);
 	}
 
-	private Map<String, Object> doBeforeAction(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	private Map<String, Object> doBeforeAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html; charset=UTF-8");
 
 		String requestUri = req.getRequestURI();
 		String[] requestUriBits = requestUri.split("/");
 
-		if (requestUriBits.length < 5) {
+		int minBitsCount = 5;
+
+		if (App.isProductMode()) {
+			minBitsCount = 4;
+		}
+
+		if (requestUriBits.length < minBitsCount) {
 			resp.getWriter().append("올바른 요청이 아닙니다.");
 			return null;
 		}
 
-		String profilesActive = System.getProperty("spring.profiles.active");
-
-		boolean isProductionMode = false;
-
-		if (profilesActive != null && profilesActive.equals("production")) {
-			isProductionMode = true;
-		}
-
-		if (isProductionMode) {
-			MysqlUtil.setDBInfo("127.0.0.1", "sbsblogLocal", "sbs123", "jspCommunity");
+		if (App.isProductMode()) {
+			MysqlUtil.setDBInfo("127.0.0.1", "sbsblogLocal", "sbs123", "jspCommunityReal");
 		} else {
 			MysqlUtil.setDBInfo("127.0.0.1", "sbsblog", "sbs123", "jspCommunity");
-//			MysqlUtil.setDevMode(true);
+			MysqlUtil.setDevMode(true);
 		}
 
-		String controllerTypeName = requestUriBits[2];
-		String controllerName = requestUriBits[3];
-		String actionMethodName = requestUriBits[4];
+		int controllerTypeNameIndex = 2;
+		int controllerNameIndex = 3;
+		int actionMethodNameIndex = 4;
+
+		if (App.isProductMode()) {
+			controllerTypeNameIndex = 1;
+			controllerNameIndex = 2;
+			actionMethodNameIndex = 3;
+		}
+
+		String controllerTypeName = requestUriBits[controllerTypeNameIndex];
+		String controllerName = requestUriBits[controllerNameIndex];
+		String actionMethodName = requestUriBits[actionMethodNameIndex];
 
 		String actionUrl = "/" + controllerTypeName + "/" + controllerName + "/" + actionMethodName;
 
@@ -108,6 +115,12 @@ public abstract class DispatcherServlet extends HttpServlet {
 
 		req.setAttribute("currentUrl", currentUrl);
 		req.setAttribute("encodedCurrentUrl", encodedCurrentUrl);
+		
+		Map<String, Object> param = Util.getParamMap(req);
+		String paramJson = Util.getJsonText(param);
+		
+		req.setAttribute("paramMap", param);
+		req.setAttribute("paramJson", paramJson);
 
 		// 데이터 추가 인터셉터 끝
 
@@ -122,6 +135,11 @@ public abstract class DispatcherServlet extends HttpServlet {
 		needToLoginActionUrls.add("/user/article/modify");
 		needToLoginActionUrls.add("/user/article/doModify");
 		needToLoginActionUrls.add("/user/article/doDelete");
+		
+		needToLoginActionUrls.add("/user/reply/doWrite");
+		needToLoginActionUrls.add("/user/reply/modify");
+		needToLoginActionUrls.add("/user/reply/doModify");
+		needToLoginActionUrls.add("/user/reply/doDelete");
 
 		if (needToLoginActionUrls.contains(actionUrl)) {
 			if ((boolean) req.getAttribute("isLogined") == false) {
@@ -158,6 +176,7 @@ public abstract class DispatcherServlet extends HttpServlet {
 		}
 
 		// 로그아웃 필요 필터링 인터셉터 끝
+
 		Map<String, Object> rs = new HashMap<>();
 		rs.put("controllerName", controllerName);
 		rs.put("actionMethodName", actionMethodName);
@@ -165,11 +184,9 @@ public abstract class DispatcherServlet extends HttpServlet {
 		return rs;
 	}
 
-	protected abstract String doAction(HttpServletRequest req, HttpServletResponse resp, String controllerName,
-			String actionMethodName);
+	protected abstract String doAction(HttpServletRequest req, HttpServletResponse resp, String controllerName, String actionMethodName);
 
-	private void doAfterAction(HttpServletRequest req, HttpServletResponse resp, String jspPath)
-			throws ServletException, IOException {
+	private void doAfterAction(HttpServletRequest req, HttpServletResponse resp, String jspPath) throws ServletException, IOException {
 		MysqlUtil.closeConnection();
 
 		RequestDispatcher rd = req.getRequestDispatcher("/jsp/" + jspPath + ".jsp");

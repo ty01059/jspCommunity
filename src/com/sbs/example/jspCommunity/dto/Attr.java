@@ -4,7 +4,8 @@ import java.util.Map;
 
 import lombok.Data;
 
-public @Data class Attr {
+@Data
+public class Attr {
 	private int id;
 	private String regDate;
 	private String updateDate;

@@ -22,6 +22,6 @@ public class AdminMemberController extends Controller {
 		
 		req.setAttribute("members", members);
 		
-		return "user/member/list";
+		return "admin/member/list";
 	}
 }

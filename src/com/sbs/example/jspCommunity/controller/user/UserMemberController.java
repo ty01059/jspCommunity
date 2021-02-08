@@ -12,17 +12,14 @@ import com.sbs.example.jspCommunity.container.Container;
 import com.sbs.example.jspCommunity.controller.Controller;
 import com.sbs.example.jspCommunity.dto.Member;
 import com.sbs.example.jspCommunity.dto.ResultData;
-import com.sbs.example.jspCommunity.service.EmailService;
 import com.sbs.example.jspCommunity.service.MemberService;
 import com.sbs.example.util.Util;
 
 public class UserMemberController extends Controller {
 	private MemberService memberService;
-	private EmailService emailService;
 
 	public UserMemberController() {
 		memberService = Container.memberService;
-		emailService = Container.emailService;
 	}
 
 	public String showList(HttpServletRequest req, HttpServletResponse resp) {
@@ -80,27 +77,21 @@ public class UserMemberController extends Controller {
 			return msgAndBack(req, "해당 로그인 아이디는 이미 사용중입니다.");
 		}
 
-		Member member = new Member();
-		member.setLoginId(loginId);
-		member.setLoginPw(req.getParameter("loginPwReal"));
-		member.setName(req.getParameter("name"));
-		member.setNickname(req.getParameter("nickname"));
-		member.setEmail(req.getParameter("email"));
-		member.setCellphoneNo(req.getParameter("cellphoneNo"));
+		Map<String, Object> joinArgs = new HashMap<>();
+		joinArgs.put("loginId", loginId);
+		joinArgs.put("loginPw", loginPw);
+		joinArgs.put("name", name);
+		joinArgs.put("nickname", nickname);
+		joinArgs.put("email", email);
+		joinArgs.put("cellphoneNo", cellphoneNo);
 
-		int newArticleId = memberService.join(member);
-
-		String title = "회원가입 축하 메일";
-		String body = member.getLoginId() + "님 회원가입을 축하합니다.";
-
-		emailService.send(member.getEmail(), title, body);
+		int newArticleId = memberService.join(joinArgs);
 
 		return msgAndReplace(req, newArticleId + "번 회원이 생성되었습니다.", "../home/main");
 	}
 
 	public String showLogin(HttpServletRequest req, HttpServletResponse resp) {
 		return "user/member/login";
-
 	}
 
 	public String doLogout(HttpServletRequest req, HttpServletResponse resp) {
@@ -143,14 +134,14 @@ public class UserMemberController extends Controller {
 		if (Util.isEmpty(req.getParameter("afterLoginUrl")) == false) {
 			replaceUrl = req.getParameter("afterLoginUrl");
 		}
-		
+
 		boolean isUsingTempPassword = memberService.isUsingTempPassword(member.getId());
-		
+
 		if (isUsingTempPassword) {
 			alertMsg = String.format("%s님은 현재 임시 비밀번호를 사용중입니다. 변경 후 이용해주세요.", member.getNickname());
 			replaceUrl = "../member/modify";
 		}
-		
+
 		boolean isNeedToModifyOldLoginPw = memberService.isNeedToModifyOldLoginPw(member.getId());
 
 		if (isNeedToModifyOldLoginPw) {

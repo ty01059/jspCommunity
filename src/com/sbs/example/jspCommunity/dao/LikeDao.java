@@ -4,7 +4,7 @@ import com.sbs.example.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlutil.SecSql;
 
 public class LikeDao {
-	
+
 	public int getPoint(String relTypeCode, int relId, int memberId) {
 		SecSql sql = new SecSql();
 		sql.append("SELECT IFNULL(SUM(L.point), 0) AS `point`");
@@ -16,7 +16,7 @@ public class LikeDao {
 
 		return MysqlUtil.selectRowIntValue(sql);
 	}
-	
+
 	public int removePoint(String relTypeCode, int relId, int memberId) {
 		SecSql sql = new SecSql();
 		sql.append("DELETE FROM `like`");
@@ -40,4 +40,5 @@ public class LikeDao {
 
 		return MysqlUtil.insert(sql);
 	}
+
 }

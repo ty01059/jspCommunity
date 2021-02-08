@@ -9,12 +9,12 @@ import com.sbs.example.jspCommunity.controller.user.UserArticleController;
 import com.sbs.example.jspCommunity.controller.user.UserHomeController;
 import com.sbs.example.jspCommunity.controller.user.UserLikeController;
 import com.sbs.example.jspCommunity.controller.user.UserMemberController;
+import com.sbs.example.jspCommunity.controller.user.UserReplyController;
 
 @WebServlet("/user/*")
 public class UserDispatcherServlet extends DispatcherServlet {
 	@Override
-	protected String doAction(HttpServletRequest req, HttpServletResponse resp, String controllerName,
-			String actionMethodName) {
+	protected String doAction(HttpServletRequest req, HttpServletResponse resp, String controllerName, String actionMethodName) {
 		String jspPath = null;
 
 		if (controllerName.equals("home")) {
@@ -82,6 +82,16 @@ public class UserDispatcherServlet extends DispatcherServlet {
 				jspPath = likeController.doDislike(req, resp);
 			} else if (actionMethodName.equals("doCancelDislike")) {
 				jspPath = likeController.doCancelDislike(req, resp);
+			}
+		} else if (controllerName.equals("reply")) {
+			UserReplyController replyController = Container.userReplyController;
+
+			if (actionMethodName.equals("doWrite")) {
+				jspPath = replyController.doWrite(req, resp);
+			} else if (actionMethodName.equals("doDelete")) {
+				jspPath = replyController.doDelete(req, resp);
+			} else if (actionMethodName.equals("doModify")) {
+				jspPath = replyController.doModify(req, resp);
 			}
 		}
 

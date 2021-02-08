@@ -27,7 +27,7 @@ public class LikeService {
 	public boolean actorCanCancelDislike(Article article, Member actor) {
 		return likeDao.getPoint("article", article.getId(), actor.getId()) < 0;
 	}
-	
+
 	public void setLikePoint(String relTypeCode, int relId, int actorId, int point) {
 		if (point == 0) {
 			likeDao.removePoint(relTypeCode, relId, actorId);
