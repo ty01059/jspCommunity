@@ -7,7 +7,7 @@
 <section class="section-main-text con-min-width">
 	<div class="con">
 		<div>! HOME !</div>
-		<div>주제 : 국내 주류</div>
+		<div>주제 : 국내 주류(소주, 맥주, 막걸리, 전통주)</div>
 	</div>
 </section>
 
