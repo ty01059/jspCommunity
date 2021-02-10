@@ -40,4 +40,8 @@ public class ReplyService {
 	public int delete(int id) {
 		return replyDao.delete(id);
 	}
+
+	public int modify(String body, int id) {
+		return replyDao.modify(body, id);
+	}
 }

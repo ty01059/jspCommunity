@@ -51,8 +51,8 @@ public class Container {
 		attrService = new AttrService();
 		likeService = new LikeService();
 		emailService = new EmailService();
-		replyService = new ReplyService();
 		memberService = new MemberService();
+		replyService = new ReplyService();
 		articleService = new ArticleService();
 		
 		userLikeController = new UserLikeController();

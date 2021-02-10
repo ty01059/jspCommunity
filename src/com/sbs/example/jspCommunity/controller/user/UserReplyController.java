@@ -95,7 +95,30 @@ public class UserReplyController extends Controller {
 	}
 
 	public String doModify(HttpServletRequest req, HttpServletResponse resp) {
-		return null;
+		String redirectUrl = req.getParameter("redirectUrl");
+
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+		String body = req.getParameter("body");
+
+		int id = Util.getAsInt(req.getParameter("id"), 0);
+
+		if (id == 0) {
+			return msgAndBack(req, "번호를 입력해주세요.");
+		}
+
+		Reply reply = replyService.getReply(id);
+
+		if (reply == null) {
+			return msgAndBack(req, id + "번 댓글은 존재하지 않습니다.");
+		}
+
+		if (replyService.actorCanDelete(reply, loginedMemberId) == false) {
+			return msgAndBack(req, "수정권한이 없습니다.");
+		}
+
+		replyService.modify(body, id);
+
+		return msgAndReplace(req, id + "번 댓글이 수정되었습니다.", redirectUrl);
 	}
 
 }

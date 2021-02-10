@@ -240,9 +240,6 @@
 					</tr>
 
 					<tr>
-						<th>
-							<span>작성</span>
-						</th>
 						<td>
 							<div>
 								<div class="btn-wrap">
