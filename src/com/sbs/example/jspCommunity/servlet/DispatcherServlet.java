@@ -66,7 +66,7 @@ public abstract class DispatcherServlet extends HttpServlet {
 		}
 
 		if (App.isProductMode()) {
-			MysqlUtil.setDBInfo("127.0.0.1", "sbsblogLocal", "sbs123", "jspCommunityReal");
+			MysqlUtil.setDBInfo("127.0.0.1", "sbsblog", "sbs123", "jspCommunity");
 		} else {
 			MysqlUtil.setDBInfo("127.0.0.1", "sbsblog", "sbs123", "jspCommunity");
 			MysqlUtil.setDevMode(true);

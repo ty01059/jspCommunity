@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sbs.example.jspCommunity.dto.Article;
 import com.sbs.example.jspCommunity.dto.Reply;
 import com.sbs.example.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlutil.SecSql;
@@ -51,6 +52,33 @@ public class ReplyDao {
 		}
 
 		return replies;
+	}
+	
+	public Reply getForPrintReplyById(int id) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT R.*");
+		sql.append(", M.name AS extra__writer");
+		sql.append(", IFNULL(SUM(L.point), 0) AS extra__likePoint");
+		sql.append(", IFNULL(SUM(IF(L.point > 0, L.point, 0)), 0) AS extra__likeOnlyPoint");
+		sql.append(", IFNULL(SUM(IF(L.point < 0, L.point * -1, 0)), 0) extra__dislikeOnlyPoint");
+		sql.append("FROM reply AS R");
+		sql.append("INNER JOIN `member` AS M");
+		sql.append("ON R.memberId = M.id");
+		sql.append("INNER JOIN `article` AS A");	
+		sql.append("ON R.relId = A.id");
+		sql.append("LEFT JOIN `like` AS L");
+		sql.append("ON L.relTypeCode = 'reply'");
+		sql.append("AND R.id = L.relId");
+		sql.append("WHERE R.id = ?", id);
+		sql.append("GROUP BY R.id");
+
+		Map<String, Object> map = MysqlUtil.selectRow(sql);
+
+		if (map.isEmpty()) {
+			return null;
+		}
+
+		return new Reply(map);
 	}
 	
 	public Reply getReply(int id) {
