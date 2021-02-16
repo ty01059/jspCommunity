@@ -52,7 +52,7 @@ public class ReplyService {
 		boolean actorCanCancelLike = likeService.actorCanCancelLike(reply, actor);
 		boolean actorCanDislike = likeService.actorCanDislike(reply, actor);
 		boolean actorCanCancelDislike = likeService.actorCanCancelDislike(reply, actor);
-
+		
 		reply.getExtra().put("actorCanLike", actorCanLike);
 		reply.getExtra().put("actorCanCancelLike", actorCanCancelLike);
 		reply.getExtra().put("actorCanDislike", actorCanDislike);

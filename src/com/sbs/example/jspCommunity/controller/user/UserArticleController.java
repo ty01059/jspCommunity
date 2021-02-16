@@ -106,8 +106,14 @@ public class UserArticleController extends Controller {
 
 		req.setAttribute("article", article);
 		
+		int i = 0;
 		List<Reply> replies = replyService.getForPrintReplies("article", article.getId());
-		System.out.println(replies.get(0));
+		for(Reply reply : replies) {
+			reply = replyService.getForPrintReplyById(reply.getId(), loginedMember);
+			System.out.println(reply);
+			replies.get(i).setExtra(reply.getExtra());
+			i++;
+		}
 		req.setAttribute("replies", replies);
 
 		return "user/article/detail";
