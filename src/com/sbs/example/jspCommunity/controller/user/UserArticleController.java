@@ -105,13 +105,17 @@ public class UserArticleController extends Controller {
 		}
 
 		req.setAttribute("article", article);
-		
+
+		// TODO 리팩토링 필요
 		int i = 0;
 		List<Reply> replies = replyService.getForPrintReplies("article", article.getId());
 		for(Reply reply : replies) {
 			reply = replyService.getForPrintReplyById(reply.getId(), loginedMember);
-			System.out.println(reply);
+
 			replies.get(i).setExtra(reply.getExtra());
+			replies.get(i).setExtra__likePoint(reply.getExtra__likePoint());
+			replies.get(i).setExtra__likeOnlyPoint(reply.getExtra__likeOnlyPoint());
+			replies.get(i).setExtra__dislikeOnlyPoint(reply.getExtra__dislikeOnlyPoint());
 			i++;
 		}
 		req.setAttribute("replies", replies);
