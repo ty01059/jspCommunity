@@ -371,6 +371,8 @@
 
 					</tr>
 				</c:forEach>
+				<c:forEach items="${reReplies}" var="reReply">
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>

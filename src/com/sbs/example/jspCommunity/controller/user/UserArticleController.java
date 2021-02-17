@@ -107,8 +107,23 @@ public class UserArticleController extends Controller {
 		req.setAttribute("article", article);
 
 		// TODO 리팩토링 필요
-		int i = 0;
 		List<Reply> replies = replyService.getForPrintReplies("article", article.getId());
+		replies = setPoint(replies, loginedMember);
+		
+		req.setAttribute("replies", replies);
+		
+		// 대댓글
+		List<Reply> reReplies = replyService.getForPrintReplies("reply", article.getId());
+		reReplies = setPoint(replies, loginedMember);
+		
+		req.setAttribute("reReplies", reReplies);
+
+		return "user/article/detail";
+	}
+	
+	private List<Reply> setPoint(List<Reply> replies, Member loginedMember) {
+		
+		int i = 0;
 		for(Reply reply : replies) {
 			reply = replyService.getForPrintReplyById(reply.getId(), loginedMember);
 
@@ -118,9 +133,8 @@ public class UserArticleController extends Controller {
 			replies.get(i).setExtra__dislikeOnlyPoint(reply.getExtra__dislikeOnlyPoint());
 			i++;
 		}
-		req.setAttribute("replies", replies);
-
-		return "user/article/detail";
+		
+		return replies;
 	}
 
 	public String showWrite(HttpServletRequest req, HttpServletResponse resp) {
