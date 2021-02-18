@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.sbs.example.jspCommunity.container.Container;
 import com.sbs.example.jspCommunity.dao.ReplyDao;
-import com.sbs.example.jspCommunity.dto.Article;
 import com.sbs.example.jspCommunity.dto.Member;
 import com.sbs.example.jspCommunity.dto.Reply;
 
@@ -59,8 +58,8 @@ public class ReplyService {
 		reply.getExtra().put("actorCanCancelDislike", actorCanCancelDislike);
 	}
 
-	public Reply getReply(int id) {
-		return replyDao.getReply(id);
+	public Reply getReplyById(int id) {
+		return replyDao.getReplyById(id);
 	}
 
 	public boolean actorCanDelete(Reply reply, int actorId) {

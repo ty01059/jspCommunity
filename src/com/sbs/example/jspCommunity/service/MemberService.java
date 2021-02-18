@@ -56,7 +56,7 @@ public class MemberService {
 		String body = "<h1>임시 패스워드 : " + tempPassword + "</h1>";
 		body += "<a href=\"" + siteLoginUrl + "\" target=\"_blank\">로그인 하러가기</a>";
 
-		Map<String, Object> rs = new HashMap<>();
+//		Map<String, Object> rs = new HashMap<>();
 
 		// 메일 발송
 		int sendRs = emailService.send(actor.getEmail(), title, body);

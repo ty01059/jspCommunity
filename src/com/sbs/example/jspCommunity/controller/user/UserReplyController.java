@@ -79,7 +79,7 @@ public class UserReplyController extends Controller {
 			return msgAndBack(req, "번호를 입력해주세요.");
 		}
 
-		Reply reply = replyService.getReply(id);
+		Reply reply = replyService.getReplyById(id);
 
 		if (reply == null) {
 			return msgAndBack(req, id + "번 댓글은 존재하지 않습니다.");
@@ -92,6 +92,30 @@ public class UserReplyController extends Controller {
 		replyService.delete(id);
 
 		return msgAndReplace(req, id + "번 댓글이 삭제되었습니다.", redirectUrl);
+	}
+	
+	public String showModify(HttpServletRequest req, HttpServletResponse resp) {
+		int id = Util.getAsInt(req.getParameter("id"), 0);
+
+		if (id == 0) {
+			return msgAndBack(req, "번호를 입력해주세요.");
+		}
+
+		Reply reply = replyService.getReplyById(id);
+
+		if (reply == null) {
+			return msgAndBack(req, id + "번 댓글은 존재하지 않습니다.");
+		}
+
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+
+		if (reply.getMemberId() != loginedMemberId) {
+			return msgAndBack(req, id + "번 댓글에 대한 권한이 없습니다.");
+		}
+
+		req.setAttribute("reply", reply);
+		
+		return "user/reply/modify";
 	}
 
 	public String doModify(HttpServletRequest req, HttpServletResponse resp) {
@@ -106,7 +130,7 @@ public class UserReplyController extends Controller {
 			return msgAndBack(req, "번호를 입력해주세요.");
 		}
 
-		Reply reply = replyService.getReply(id);
+		Reply reply = replyService.getReplyById(id);
 
 		if (reply == null) {
 			return msgAndBack(req, id + "번 댓글은 존재하지 않습니다.");
