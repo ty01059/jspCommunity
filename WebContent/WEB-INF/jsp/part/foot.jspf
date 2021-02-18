@@ -5,9 +5,9 @@
 	<div class="con flex flex-jc-c height-100p">
 		<a href="../home/main" class="logo flex flex-ai-c">
 			<span>
-				<i class="fas fa-keyboard"></i>
+				<i class="fas fa-glass-cheers"></i>
 			</span>
-			<span>Devly</span>
+			<span>Cheers</span>
 		</a>
 	</div>
 </footer>

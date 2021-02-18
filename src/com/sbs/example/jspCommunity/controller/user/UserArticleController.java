@@ -113,10 +113,12 @@ public class UserArticleController extends Controller {
 		req.setAttribute("replies", replies);
 		
 		// 대댓글
+		/*
 		List<Reply> reReplies = replyService.getForPrintReplies("reply", article.getId());
 		reReplies = setPoint(replies, loginedMember);
 		
 		req.setAttribute("reReplies", reReplies);
+		*/
 
 		return "user/article/detail";
 	}
